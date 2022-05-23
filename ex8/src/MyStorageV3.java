@@ -72,11 +72,19 @@ public class MyStorageV3 {
         show_list();
         System.out.println("[System] 출고를 진행할 제품명을 입력하세요 : ");
         String str = sc.next();
-        System.out.println("[System] 원하는 출고량을 입력해주세요. : ");
-        int i = sc.nextInt();
-        list.put(str, list.get(str) - i);
-        System.out.println("[Clear] 출고가 완료됐습니다.");
-        show_list();
+        if(!list.containsKey(str)) {
+            System.out.println("등록되지 않은 제품입니다.");
+        } else {
+            System.out.println("[System] 원하는 출고량을 입력해주세요. : ");
+            int i = sc.nextInt();
+            if(i>list.get(str)) {
+                System.out.println("현재 입고된 양보다 많이 출고 할 수 없습니다.");
+            } else {
+                list.put(str, list.get(str) - i);
+                System.out.println("[Clear] 출고가 완료됐습니다.");
+                show_list();
+            }
+        }
     }
 
     private static void prod_amount_add(Scanner sc) {
@@ -84,27 +92,39 @@ public class MyStorageV3 {
         show_list();
         System.out.println("[System] 수량을 추가할 제품명을 입력하세요 : ");
         String str = sc.next();
-        System.out.println("[System] 추가할 수량을 입력해주세요. : ");
-        int i = sc.nextInt();
-        list.put(str, list.get(str) + i);
-        System.out.println("[Clear] 정상적으로 제품의 수량 추가가 완료됐습니다.");
-        show_list();
+        if(!list.containsKey(str)) {
+            System.out.println("등록되지 않은 제품입니다.");
+        } else {
+            System.out.println("[System] 추가할 수량을 입력해주세요. : ");
+            int i = sc.nextInt();
+            list.put(str, list.get(str) + i);
+            System.out.println("[Clear] 정상적으로 제품의 수량 추가가 완료됐습니다.");
+            show_list();
+        }
     }
 
     private static void prod_remove(Scanner sc) {
         System.out.println("[System] 제품 등록 취소를 원하는 제품명을 입력하세요 : ");
         String item = sc.next();
-        list.remove(item);
-        System.out.println("제품 등록 취소가 완료됐습니다.");
-        show_list();
+        if(!list.containsKey(item)) {
+            System.out.println("등록되지 않은 제품입니다.");
+        } else {
+            list.remove(item);
+            System.out.println("제품 등록 취소가 완료됐습니다.");
+            show_list();
+        }
     }
 
     private static void prod_input(Scanner sc) {
         System.out.println("[System] 제품 등록을 원하는 제품명을 입력하세요 : ");
         String item = sc.next();
-        list.put(item,0);
-        System.out.println("[System] 등록이 안료됐습니다.");
-        show_list();
+        if(list.containsKey(item)) {
+            System.out.println("이미 등록된 제품입니다. 다른 이름을 입력하세요.");
+        } else {
+            list.put(item, 0);
+            System.out.println("[System] 등록이 안료됐습니다.");
+            show_list();
+        }
     }
 
     private static void show_list() {
